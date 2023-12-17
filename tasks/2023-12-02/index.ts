@@ -1,22 +1,3 @@
-// Tutaj skopiuj kod zadania
-
-const template = [
-    {
-        priority: 1,
-        envelopes: ["christmas balls", "snowboard"],
-    },
-    {
-        priority: 2,
-        envelopes: [{ giftName: "snowboard" }, { giftName: "game console" }],
-    },
-];
-
-// im wyższya LICZBA TYM WYZSYZ  PRIORYTET
-
-const sortPriority = (arr: { priority: number }[], priority: number) => {
-    arr.sort((a, b) => b.priority - a.priority);
-};
-
 export class ChristmasQueue<T> {
     private queue: {
         priority: number;
