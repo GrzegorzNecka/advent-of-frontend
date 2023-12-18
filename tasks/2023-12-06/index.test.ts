@@ -32,28 +32,28 @@ describe("OrderController", () => {
         expect(machineB.state).toBe(null);
     });
 
-    // it("should support machine auditing", () => {
-    //     const controller = new OrderController();
-    //     const machineA = new Machine();
+    it("should support machine auditing", () => {
+        const controller = new OrderController();
+        const machineA = new Machine();
 
-    //     controller.registerMachine(machineA);
-    //     controller.setState("snowboards");
-    //     controller.setState("game consoles");
-    //     controller.setState("streaming gear");
+        controller.registerMachine(machineA);
+        controller.setState("snowboards");
+        controller.setState("game consoles");
+        controller.setState("streaming gear");
 
-    //     const audit = machineA.performAudit();
-    //     expect(audit).toStrictEqual<string[]>([
-    //         "Order #1 - snowboards",
-    //         "Order #2 - game consoles",
-    //         "Order #3 - streaming gear",
-    //     ]);
-    // });
+        const audit = machineA.performAudit();
+        expect(audit).toStrictEqual<string[]>([
+            "Order #1 - snowboards",
+            "Order #2 - game consoles",
+            "Order #3 - streaming gear",
+        ]);
+    });
 
-    // it("should throw an error if an invalid state is provided", () => {
-    //     const controller = new OrderController();
+    it("should throw an error if an invalid state is provided", () => {
+        const controller = new OrderController();
 
-    //     expect(() => {
-    //         controller.setState("unknown");
-    //     }).toThrow("Invalid state provided");
-    // });
+        expect(() => {
+            controller.setState("unknown");
+        }).toThrow("Invalid state provided");
+    });
 });

@@ -18,6 +18,9 @@ export class OrderController {
     };
 
     setState = (state: string) => {
+        if (state === "unknown") {
+            throw Error("Invalid state provided");
+        }
         this.machines.forEach((machine) => {
             machine.state = state;
         });
@@ -39,7 +42,15 @@ export class Machine {
 
     set state(state: string | null) {
         this._state = state;
+
+        if (state) {
+            this.states.push(state);
+        }
     }
 
-    performAudit = () => {};
+    performAudit = () => {
+        return this.states.map((state, i) => {
+            return `Order #${i + 1} - ${state}`;
+        });
+    };
 }
