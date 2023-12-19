@@ -13,35 +13,47 @@ export class LetterSorter {
         this.strategy = strategy;
     }
 
-    sortLetters(letters: Letter[]): Letter[] {
-        return this.strategy.sort(letters);
-    }
+    sortLetters = (letters: Letter[]) => this.strategy.sort(letters);
 }
 
-export class PriorityStrategy {
-    #order: Letter["priority"][];
-    constructor() {
-        this.#order = ["high", "medium", "low"];
+//----------------------------------------
+
+abstract class BaseStrategy<T> {
+    order: T[];
+
+    constructor(order: T[]) {
+        this.order = order;
     }
 
-    sort = (letters: Letter[]) => {
-        return letters.sort((a, b) => this.#order.indexOf(a.priority) - this.#order.indexOf(b.priority));
-    };
+    abstract getKey(letters: Letter): T;
+
+    sort = (letters: Letter[]) =>
+        letters.sort((a, b) => {
+            const keyA = this.order.indexOf(this.getKey(a));
+            const keyB = this.order.indexOf(this.getKey(b));
+
+            return keyA - keyB;
+        });
 }
 
-export class CountryStrategy {
-    #order: Letter["country"][];
+// ----------------------------
+
+export class PriorityStrategy extends BaseStrategy<Letter["priority"]> {
     constructor() {
-        this.#order = ["pl", "de", "us"];
+        super(["high", "medium", "low"]);
     }
 
-    sort = (letters: Letter[]) => {
-        return letters.sort((a, b) => this.#order.indexOf(a.country) - this.#order.indexOf(b.country));
-    };
+    getKey = (letters: Letter) => letters.priority;
+}
+
+export class CountryStrategy extends BaseStrategy<Letter["country"]> {
+    constructor() {
+        super(["pl", "de", "us"]);
+    }
+
+    getKey = (letters: Letter) => letters.country;
 }
 
 export class LengthStrategy {
-    sort = (letters: Letter[]) => {
-        return letters.sort((a, b) => a.content.length - b.content.length);
-    };
+    sort = (letters: Letter[]) => letters.sort((a, b) => a.content.length - b.content.length);
 }
